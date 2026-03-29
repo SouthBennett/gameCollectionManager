@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/public/js/main.js" defer></script>
+  <title>Game Collection Manager</title>
+</head>
+<body>
+  
+  <h1>Game Collection Manager</h1>
+
+  <!-- Login button -->
+  <a href="/login">
+    <button>Login</button>
+  </a>
+
+  <!-- ========================= -->
+  <!-- ADD GAME FORM -->
+  <!-- ========================= -->
+  <h2>Add a Game</h2>
+
+  <form id="game-form">
+    <input type="text", id="title" placeholder="Game Title" required />
+    <input type="text", id="platform" placeholder="Platform" />
+    <input type="number", id="hours" placeholder="Hours Played"  />
+
+    <label>
+      Completed:
+      <input type="checkbox" id="completed" />
+    </label>
+
+    <button type="submit">Add Game</button>
+  </form>
+
+  <!-- ========================= -->
+  <!-- GAMES LIST -->
+  <!-- ========================= -->
+   <h2>Your Games</h2>
+   <ul id="games-list"></ul>
+
+</body>
+</html>

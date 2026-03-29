@@ -101,6 +101,7 @@ export const updateGame = (req, res) => {
       return res.status(500).json({ error: 'Database error' });
     }
 
+    // if no rows affect, game not found
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: 'Game not found'});
     }

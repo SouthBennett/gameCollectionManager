@@ -8,7 +8,13 @@ import gamesRouter from './routers/gamesRoutes.js';
 const app = express();
 
 // middleware to parse JSON request bodies
-app.use(express.json())
+app.use(express.json());
+
+// set EJS as view engine
+app.set('view engine', 'ejs');
+
+// tell Express where views are located
+app.set('views', './src/views');
 
 // mounting use routes (all routes starting with / go through indexRoutes)
 app.use('/', indexRouter);
