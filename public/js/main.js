@@ -1,3 +1,6 @@
+// id of the game being edited
+let editingGameId = null;
+
 // ======================
 // SELECT DOM ELEMENTS
 // ======================
@@ -26,6 +29,31 @@ const fetchGames = async () => {
         ' (' + game.hours_played + ' hrs)' + 
         (game.completed ? ' yes' : ' no');
       
+      // ==============
+      // EDIT BUTTON
+      // ==============
+      const editBtn = document.createElement('button');
+      editBtn.textContent = 'Edit';
+
+      editBtn.addEventListener('click', () => {
+        // populate form fields with selected game
+        document.getElementById('title').value = game.title;
+        document.getElementById('platform').value = game.platform;
+        document.getElementById('hours').value = game.hours_played;
+        document.getElementById('completed').checked = game.completed;
+
+        // store id
+        editingGameId = game.id;
+
+        // change button text
+        document.getElementById("submit-btn").textContent = 'Update Game';
+
+        console.log('Editing game id:', editingGameId);
+      });
+
+      // ==================
+      // DELETE BUTTON
+      // ==================
       const deleteBtn = document.createElement('button');
       deleteBtn.textContent = 'Delete';
 
@@ -44,6 +72,7 @@ const fetchGames = async () => {
 
       li.appendChild(text);
       li.appendChild(deleteBtn);
+      li.appendChild(editBtn);
 
       gamesList.appendChild(li);
     });
@@ -69,20 +98,52 @@ const addGame = async (e) => {
   };
 
   try {
-    await fetch ('/games', {
+    // =========================
+    // CHECK: EDIT OR ADD
+    // =========================
+    if (editingGameId !== null) {
+      // ==========================
+      // UPDATE EXISTING GAME (PUT)
+      // ==========================
+      await fetch(`/games/${editingGameId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newGame)
+      });
+
+      console.log(`Game ${editingGameId} updated`);
+
+      // reset editing state
+      editingGameId = null;
+
+      // reset button text
+      document.getElementById("submit-btn").textContent = 'Add Game';
+
+      // ======================
+      // CREATE NEW GAME (POST)
+      // ======================
+    } else {
+      await fetch ('/games', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newGame)
     });
 
-    // refresh UI / triggers GET / games and pulls updated data
+    console.log('New game added');
+    }
+
+    // ================
+    // REFRESH UI
+    // ================
     fetchGames();
 
-    // reset form
+    // ================
+    // RESET FORM
+    // ================
     gameForm.reset();
 
-  } catch(error) {
-    console.error('Error adding game:', error);
+  } catch (error) {
+    console.log('Error savig game:', error);
   }
 };
 
