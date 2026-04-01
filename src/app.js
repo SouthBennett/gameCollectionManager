@@ -8,6 +8,8 @@ import session from 'express-session';
 import passport from 'passport';
 import cookieParser from 'cookie-parser';
 
+import './config/passport.js';
+
 
 // create instance of express app
 const app = express();
