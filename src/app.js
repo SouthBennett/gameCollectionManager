@@ -10,12 +10,15 @@ import cookieParser from 'cookie-parser';
 
 import './config/passport.js';
 
+import authRoutes from './routers/authRoutes.js';
 
 // create instance of express app
 const app = express();
 
 // middleware to parse JSON request bodies
 app.use(express.json());
+
+app.use(express.urlencoded({ extended: true}));
 
 // Makes files in /public accessible via browser (e.g., /styles.css, /script.js)
 app.use(express.static('public'));
@@ -48,6 +51,7 @@ app.set('views', './src/views');
 
 // mounting use routes (all routes starting with / go through indexRoutes)
 app.use('/', indexRouter);
+app.use('/', authRoutes);
 app.use('/games', gamesRouter);
 
 // export app so server.js can use it

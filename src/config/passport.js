@@ -9,6 +9,7 @@ import db from './db.js'; // adjust if needed
 passport.use(new LocalStrategy(
   async (username, password, done) => {
     try {
+      console.log('LOGIN ATTEMPT:', username, password);
     // find user by username
       const [rows] = await db.query(
         'SELECT * FROM users WHERE username = ?',
@@ -22,15 +23,20 @@ passport.use(new LocalStrategy(
 
       const user = rows[0];
 
+      console.log('FOUND USER:', user);
+
       // Temp: plain password check (replace later with bcrypt)
       if (user.password !== password) {
+        console.log("PASSWORD MISMATCH");
         return done(null, false, { message: 'Incorrect password'})
       }
 
       // success 
+      console.log("LOGIN SUCCESS!");
       return done(null, user);
 
     } catch (error) {
+      console.log("ERROR:", error);
       return done(error);
     }
   }
